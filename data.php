@@ -1,200 +1,55 @@
 <?php
-// --- KONFIGURASI KONEKSI POSTGRESQL ---
-$host   = 'localhost';
-$port   = '5432';
-$dbname = 'website_coffee';   // ganti sesuai nama database kamu
-$user   = 'postgres';         // ganti sesuai user PostgreSQL
-$pass   = '1';            // ganti sesuai password PostgreSQL
+$host = 'localhost';
+$port = '5432';
+$dbname = 'coffe-website'; 
+$user = 'postgres';
+$pass = '1';
 
-// Membuat koneksi
 $conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$pass");
 if (!$conn) {
-    die('Koneksi gagal: ' . pg_last_error());
+    die("Koneksi gagal: " . pg_last_error());
 }
 
-// Set encoding UTF8
-pg_set_client_encoding($conn, 'UTF8');
-
-// Jika form dikirim (tambah data nilai)
-if (isset($_POST['submit'])) {
-    $nim = $_POST['nim'];
-    $nama = $_POST['nama'];
-    $nilai = $_POST['nilai_uts'];
-
-    $query = "INSERT INTO nilai_uts (nim, nama, nilai_uts) VALUES ('$nim', '$nama', '$nilai')";
-    $result = pg_query($conn, $query);
-
-    if ($result) {
-        echo "<script>alert('Data berhasil ditambahkan!');</script>";
-    } else {
-        echo "<script>alert('Gagal menambahkan data!');</script>";
-    }
-}
-
-// Ambil data dari tabel
-$sql = 'SELECT * FROM nilai_uts ORDER BY nim';
-$result = pg_query($conn, $sql);
+$query = 'SELECT * FROM "TB_menu" ORDER BY id';
+$result = pg_query($conn, $query);
 if (!$result) {
-    die('Query gagal: ' . pg_last_error($conn));
+    die("Query gagal: " . pg_last_error($conn));
 }
 ?>
 
-<!-- HTML -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KopiKita | Data Nilai UTS</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    .data-container {
-        width: 90%;
-        margin: 30px auto;
-        padding: 20px;
-    }
-
-    .main-table-title {
-        text-align: center;
-        margin-bottom: 20px;
-        font-size: 2em;
-        font-weight: bold;
-        color: #7b4f2f;
-    }
-
-    .styled-table {
-        border-collapse: collapse;
-        margin: 0 auto;
-        font-size: 1em;
-        min-width: 900px;
-        background-color: #fff;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-    }
-
-    .styled-table thead tr {
-        background-color: #7b4f2f;
-        color: #ffffff;
-        text-align: center;
-    }
-
-    .styled-table th, .styled-table td {
-        padding: 12px 18px;
-        border: 1px solid #d3d3d3;
-        text-align: center;
-    }
-
-    form {
-        text-align: center;
-        margin-bottom: 30px;
-    }
-
-    input {
-        padding: 8px;
-        margin: 5px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-
-    button {
-        background-color: #7b4f2f;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background-color: #5a3922;
-    }
-
-    footer {
-        text-align: center;
-        padding: 20px;
-        background-color: #f1e2d2;
-        color: #5a3922;
-        font-weight: bold;
-    }
-
-    .navbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: #7b4f2f;
-        padding: 10px 40px;
-    }
-
-    .navbar a {
-        color: white;
-        text-decoration: none;
-        margin: 0 10px;
-        font-weight: bold;
-    }
-
-    .logo {
-        font-size: 1.5em;
-        color: #fff;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daftar Menu KopiKita</title>
+<style>
+body { font-family: Arial, sans-serif; background-color: #fff7ed; }
+h2 { text-align:center; color:#5c3a21; margin-top:30px; }
+table { border-collapse:collapse; width:80%; margin:20px auto; background:#fff8f0; border-radius:10px; box-shadow:0 4px 8px rgba(0,0,0,0.1); }
+th, td { padding:12px; text-align:center; border-bottom:1px solid #e0c9a6; }
+th { background:#8b5e3b; color:#fff; }
+tr:nth-child(even){ background-color:#f9e6d0; }
+tr:hover{ background-color:#f3d6b8; transition:0.3s; }
+</style>
 </head>
-
 <body>
-  <nav class="navbar">
-    <div class="logo">☕ KopiKita</div>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="index.php">Nilai UTS</a>
-    </div>
-  </nav>
 
-  <div class="data-container">
-    <div class="main-table-title">Daftar Nilai UTS Mahasiswa</div>
-
-    <!-- Form tambah data -->
-    <form method="POST" action="">
-      <input type="text" name="nim" placeholder="NIM" required>
-      <input type="text" name="nama" placeholder="Nama" required>
-      <input type="number" step="0.01" name="nilai_uts" placeholder="Nilai UTS" required>
-      <button type="submit" name="submit">Tambah</button>
-    </form>
-
-    <!-- Tabel data -->
-    <table class="styled-table">
-      <thead>
-        <tr>
-          <th>No</th>
-          <th>NIM</th>
-          <th>Nama</th>
-          <th>Nilai UTS</th>
-          <th>Aksi</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php
-        $no = 1;
-        while ($row = pg_fetch_assoc($result)) : ?>
-          <tr>
-            <td><?= $no++; ?></td>
-            <td><?= htmlspecialchars($row['nim'], ENT_QUOTES, 'UTF-8'); ?></td>
-            <td><?= htmlspecialchars($row['nama'], ENT_QUOTES, 'UTF-8'); ?></td>
-            <td><?= htmlspecialchars($row['nilai_uts'], ENT_QUOTES, 'UTF-8'); ?></td>
-            <td>
-              <a href="#">Edit</a> |
-              <a href="#">Hapus</a>
-            </td>
-          </tr>
-        <?php endwhile; ?>
-      </tbody>
-    </table>
-  </div>
-
-  <footer>
-    © 2025 KopiKita Coffee Website — All Rights Reserved.
-  </footer>
-</body>
-</html>
-
+<h2>Daftar Menu Kopi dari Database</h2>
+<table>
+<tr><th>ID</th><th>Nama Menu</th><th>Harga</th><th>Stok</th><th>Kategori</th></tr>
 <?php
-pg_free_result($result);
+while ($row = pg_fetch_assoc($result)) {
+    echo "<tr>";
+    echo "<td>".$row['id']."</td>";
+    echo "<td>".$row['nama_menu']."</td>";
+    echo "<td>Rp ".number_format($row['harga'], 0, ',', '.')."</td>";
+    echo "<td>".$row['stok']."</td>";
+    echo "<td>".$row['kategori']."</td>";
+    echo "</tr>";
+}
 pg_close($conn);
 ?>
+</table>
+</body>
+</html>
