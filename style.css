@@ -1,0 +1,241 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+      background-image: url('img/background.jpg'); 
+      background-size: cover;              
+      background-repeat: no-repeat;        
+      background-position: center;        
+      height: 100vh;                       
+      transition: opacity 0.4s ease-in-out;
+      opacity: 0; 
+
+}
+
+body.fade-in {
+  opacity: 1;
+}
+
+body.fade-out {
+  opacity: 0;
+}
+
+/* ========== NAVBAR ========== */
+.navbar {
+  background-color: #fff;
+  padding: 15px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #3e2723;
+  text-decoration: none;
+}
+
+.nav-links a {
+  margin-left: 25px;
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  color: #b8860b;
+}
+
+/* ========== HERO ========== */
+.hero {
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  padding-top: 100px; /* supaya tidak ketutupan navbar */
+  position: relative;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.4);
+}
+
+.btn {
+  background-color: #b8860b;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #a67608;
+  transform: translateY(-3px);
+}
+
+/* ========== OUR SPECIALTIES ========== */
+.specialties {
+  background-color: #fff;
+  padding: 100px 50px;
+  text-align: center;
+}
+
+.specialties h2 {
+  font-size: 2rem;
+  color: #3e2723;
+  margin-bottom: 40px;
+}
+
+.specialties-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.specialty-item img {
+  width: 100%;
+  height: 200px;
+  object-fit: contain; /* agar gambar tidak terpotong */
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.specialty-item h3 {
+  color: #b8860b;
+  margin-bottom: 10px;
+}
+
+.specialty-item p {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* ========== MENU ========== */
+.menu {
+  background-color: #f5f5f5;
+  padding: 100px 50px;
+  text-align: center;
+}
+
+.menu h2 {
+  font-size: 2rem;
+  color: #3e2723;
+  margin-bottom: 40px;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+
+}
+
+.menu-item {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  padding: 20px;
+  transition: transform 0.3s ease;
+  margin-bottom: 2rem;
+}
+
+.menu-item:hover {
+  transform: translateY(-5px);
+}
+
+.menu-item img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.menu-item h3 {
+  color: #b8860b;
+  margin-bottom: 5px;
+}
+
+.menu-item span {
+  font-weight: bold;
+  color: #6d4c41;
+}
+
+
+/* ========== CONTACT ========== */
+.contact {
+  background-color: #fff;
+  text-align: center;
+  padding: 80px 50px;
+}
+
+.contact h2 {
+  font-size: 2rem;
+  color: #3e2723;
+  margin-bottom: 15px;
+}
+
+.contact p {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.ig-icon {
+  width: 60px;
+  transition: transform 0.3s ease;
+}
+
+.ig-icon:hover {
+  transform: scale(1.1);
+}
+
+/* ========== FOOTER ========== */
+.footer {
+  background-color: #222;
+  color: #ccc;
+  text-align: center;
+  padding: 20px 0;
+}
+
+/* ========== EFEK SCROLL ========== */
+[data-aos] {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease;
+}
+
+[data-aos].aos-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    padding: 10px 20px;
+  }
+
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .specialties, .menu, .contact {
+    padding: 60px 20px;
+  }
+}
